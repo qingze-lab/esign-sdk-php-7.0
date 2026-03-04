@@ -1,5 +1,5 @@
 {
-	"name": "qingze-lab/esignbao-sdk-php",
+	"name": "qingze-lab/esignbao-sdk-php-7.3",
 	"description": "易签宝 REST API PHP SDK，支持实名认证V3和PDF合同签署，包含令牌管理、可重试HTTP和领域服务。",
 	"type": "library",
 	"license": "MIT",
