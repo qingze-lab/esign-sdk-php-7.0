@@ -4,7 +4,7 @@ namespace QingzeLab\ESignBao\Http;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise\Create;
+use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -76,7 +76,7 @@ class RetryMiddleware
                             $this->delay($retries);
                             return $retry();
                         }
-                        return Create::rejectionFor($reason);
+                        return new RejectedPromise($reason);
                     }
                 );
             };
