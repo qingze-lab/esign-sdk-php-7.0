@@ -1,0 +1,137 @@
+<?php
+
+namespace QingzeLab\ESignBao;
+
+use QingzeLab\ESignBao\Config\Configuration;
+use QingzeLab\ESignBao\Http\HttpClient;
+use QingzeLab\ESignBao\Services\AuthService;
+use QingzeLab\ESignBao\Services\FileService;
+use QingzeLab\ESignBao\Services\SignFlowService;
+use QingzeLab\ESignBao\Services\TemplateService;
+
+/**
+ * 易签宝SDK主客户端类
+ * 参考OpenIM SDK的Client设计
+ *
+ * @example
+ * $config = new Configuration('your_app_id', 'your_app_secret', 'https://smlopenapi.esign.cn');
+ * $client = new Client($config);
+ *
+ * // 实名认证链接获取
+ * $result = $client->auth()->getPersonAuthUrl(['psnAccount' => '...']);
+ */
+class Client
+{
+    /**
+     * @var Configuration
+     */
+    private $config;
+
+    /**
+     * @var HttpClient
+     */
+    private $httpClient;
+
+    /**
+     * @var AuthService|null
+     */
+    private $authService = null;
+
+    /**
+     * @var SignFlowService|null
+     */
+    private $signFlowService = null;
+
+    /**
+     * @var FileService|null
+     */
+    private $fileService = null;
+
+    /**
+     * @var TemplateService|null
+     */
+    private $templateService = null;
+
+    /**
+     * 构造函数
+     *
+     * @param Configuration $config 配置对象
+     */
+    public function __construct(Configuration $config)
+    {
+        $this->config     = $config;
+        $this->httpClient = new HttpClient($this->config);
+    }
+
+    /**
+     * 获取实名认证服务
+     *
+     * @return AuthService
+     */
+    public function auth()
+    {
+        if ($this->authService === null) {
+            $this->authService = new AuthService($this->httpClient);
+        }
+        return $this->authService;
+    }
+
+    /**
+     * 获取签署流程服务
+     *
+     * @return SignFlowService
+     */
+    public function signFlow()
+    {
+        if ($this->signFlowService === null) {
+            $this->signFlowService = new SignFlowService($this->httpClient);
+        }
+        return $this->signFlowService;
+    }
+
+    /**
+     * 获取文件服务
+     *
+     * @return FileService
+     */
+    public function file()
+    {
+        if ($this->fileService === null) {
+            $this->fileService = new FileService($this->httpClient);
+        }
+        return $this->fileService;
+    }
+
+    /**
+     * 获取模板服务
+     *
+     * @return TemplateService
+     */
+    public function template()
+    {
+        if ($this->templateService === null) {
+            $this->templateService = new TemplateService($this->httpClient);
+        }
+        return $this->templateService;
+    }
+
+    /**
+     * 获取配置
+     *
+     * @return Configuration
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * 获取HTTP客户端
+     *
+     * @return HttpClient
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+}
