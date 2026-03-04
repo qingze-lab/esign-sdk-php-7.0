@@ -4,12 +4,13 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> **注意**: 本 SDK 基于易签宝 V3 版本 API 开发，兼容 PHP 5.6+。
+> **注意**: 本 SDK 基于易签宝 V3 版本 API 开发，兼容 PHP 7.0+。
 
 ## ✨ 特性
 
 - **完整覆盖**: 支持实名认证、文件管理、合同模板、签署流程等核心业务。
-- **兼容性好**: 支持 PHP 5.6 及以上版本，兼容 Laravel、ThinkPHP、FastAdmin 等主流框架。
+- **兼容性好**: 支持 PHP 7.0 及以上版本，兼容 Laravel、ThinkPHP、FastAdmin 等主流框架。
+- **强类型支持**: 代码中广泛使用 PHP 7 类型提示，提高代码质量和开发体验。
 - **易于使用**: 采用领域服务模式设计，调用逻辑清晰直观。
 - **自动签名**: 内置 API 请求签名逻辑，开发者无需关心鉴权细节。
 - **重试机制**: 内置 HTTP 请求自动重试机制，提高网络波动下的稳定性。
@@ -19,7 +20,7 @@
 使用 Composer 安装：
 
 ```bash
-composer require qingze-lab/esignbao-sdk-php-7.3
+composer require qingze-lab/esignbao-sdk-php-7.0
 ```
 
 ## 🚀 快速开始
@@ -122,6 +123,8 @@ public function sign(Client $client)
 
 在 ThinkPHP 或 FastAdmin 中，你可以创建一个公共的服务类或直接在控制器中实例化。
 
+#### 1. 基础集成
+
 ```php
 use QingzeLab\ESignBao\Client;
 use QingzeLab\ESignBao\Config\Configuration;
@@ -143,6 +146,56 @@ class ESignService
         return self::$client;
     }
 }
+```
+
+#### 2. 日志集成 (ThinkPHP 5.0)
+
+ThinkPHP 5.0 的日志系统是静态调用的，你可以实现一个简单的适配器类来接入 SDK 的日志。
+
+首先定义适配器类 `Tp5Logger`：
+
+```php
+namespace app\common\library; // 命名空间根据实际情况调整
+
+use QingzeLab\ESignBao\Log\LoggerInterface;
+use think\Log;
+
+/**
+ * 适配 ThinkPHP 5.0 的日志类
+ */
+class Tp5Logger implements LoggerInterface
+{
+    public function info(string $message, array $context = [])
+    {
+        // 记录 info 级别日志
+        // JSON_UNESCAPED_UNICODE 确保中文不被转义
+        $contextStr = !empty($context) ? ' ' . json_encode($context, JSON_UNESCAPED_UNICODE) : '';
+        Log::record('[ESignBao] ' . $message . $contextStr, 'info');
+    }
+
+    public function error(string $message, array $context = [])
+    {
+        // 记录 error 级别日志
+        $contextStr = !empty($context) ? ' ' . json_encode($context, JSON_UNESCAPED_UNICODE) : '';
+        Log::record('[ESignBao] ' . $message . $contextStr, 'error');
+    }
+}
+```
+
+然后在初始化 SDK 时注入该日志类：
+
+```php
+// 在 ESignService::getClient() 中
+$config = new Configuration(
+    config('esign.app_id'),
+    config('esign.app_secret'),
+    config('esign.api_url')
+);
+
+// 注入日志适配器
+$config->setLogger(new \app\common\library\Tp5Logger());
+
+self::$client = new Client($config);
 ```
 
 ## 📖 文档

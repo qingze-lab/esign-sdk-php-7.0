@@ -22,7 +22,7 @@ final class FileLogger implements LoggerInterface
      *
      * @param string $path 日志文件路径
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
@@ -35,7 +35,7 @@ final class FileLogger implements LoggerInterface
      *
      * @return void
      */
-    public function info($message, array $context = [])
+    public function info(string $message, array $context = [])
     {
         $this->write('info', $message, $context);
     }
@@ -48,7 +48,7 @@ final class FileLogger implements LoggerInterface
      *
      * @return void
      */
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = [])
     {
         $this->write('error', $message, $context);
     }
@@ -62,7 +62,7 @@ final class FileLogger implements LoggerInterface
      *
      * @return void
      */
-    private function write($level, $message, array $context)
+    private function write(string $level, string $message, array $context)
     {
         $record = [
             'ts'      => (new DateTime('now', new DateTimeZone('UTC')))->format('c'),
@@ -70,7 +70,7 @@ final class FileLogger implements LoggerInterface
             'message' => $message,
             'context' => $context,
         ];
-        $line = json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+        $line   = json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL;
         $this->append($line);
     }
 
@@ -81,7 +81,7 @@ final class FileLogger implements LoggerInterface
      *
      * @return void
      */
-    private function append($text)
+    private function append(string $text)
     {
         $dir = dirname($this->path);
         if (!is_dir($dir)) {

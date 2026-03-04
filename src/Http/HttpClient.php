@@ -34,7 +34,7 @@ class HttpClient extends AbstractClient
      * 创建Guzzle客户端（带重试中间件）
      * @return Client
      */
-    private function createClient()
+    private function createClient(): Client
     {
         $stack = HandlerStack::create();
 
@@ -63,7 +63,7 @@ class HttpClient extends AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    public function get($uri, array $params = [], array $headers = [])
+    public function get(string $uri, array $params = [], array $headers = []): array
     {
         $queryString = !empty($params) ? '?' . http_build_query($params) : '';
         $fullUri     = $uri . $queryString;
@@ -79,7 +79,7 @@ class HttpClient extends AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    public function post($uri, array $data = [], array $headers = [])
+    public function post(string $uri, array $data = [], array $headers = []): array
     {
         $body = json_encode($data, JSON_UNESCAPED_UNICODE);
         return $this->request('POST', $uri, $body, $headers);
@@ -93,7 +93,7 @@ class HttpClient extends AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    public function put($uri, array $data = [], array $headers = [])
+    public function put(string $uri, array $data = [], array $headers = []): array
     {
         $body = json_encode($data, JSON_UNESCAPED_UNICODE);
         return $this->request('PUT', $uri, $body, $headers);
@@ -106,7 +106,7 @@ class HttpClient extends AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    public function delete($uri, array $headers = [])
+    public function delete(string $uri, array $headers = []): array
     {
         return $this->request('DELETE', $uri, '', $headers);
     }
@@ -115,7 +115,7 @@ class HttpClient extends AbstractClient
      * 获取配置对象
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -129,7 +129,7 @@ class HttpClient extends AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    private function request($method, $uri, $body = '', array $customHeaders = [])
+    private function request(string $method, string $uri, string $body = '', array $customHeaders = []): array
     {
         $operationId = $this->generateOperationId();
 
@@ -182,7 +182,7 @@ class HttpClient extends AbstractClient
      * @param array  $customHeaders
      * @return array
      */
-    private function buildHeaders($method, $uri, $body, array $customHeaders)
+    private function buildHeaders(string $method, string $uri, string $body, array $customHeaders): array
     {
         $accept      = 'application/json';
         $contentType = 'application/json; charset=UTF-8';

@@ -44,18 +44,18 @@ class TemplateService
      * @throws ESignBaoException
      */
     public function getDocTemplateCreateUrl(
-        $docTemplateName,
-        $fileId,
-        $docTemplateType = 0,
-        $redirectUrl = null,
-        $hiddenOriginComponents = null,
-        $basicComponentsType = null,
-        $showReplaceFraft = null,
-        $customComponentGroups = null,
-        $customComponents = null,
-        $signerRoles = null,
-        $dedicatedCloudId = null
-    )
+        string $docTemplateName,
+        string $fileId,
+        int    $docTemplateType = 0,
+        string $redirectUrl = null,
+        bool   $hiddenOriginComponents = null,
+        array  $basicComponentsType = null,
+        bool   $showReplaceFraft = null,
+        array  $customComponentGroups = null,
+        array  $customComponents = null,
+        array  $signerRoles = null,
+        string $dedicatedCloudId = null
+    ): array
     {
         $data = [
             'docTemplateName' => $docTemplateName,
@@ -118,15 +118,15 @@ class TemplateService
      * @throws ESignBaoException
      */
     public function getDocTemplateEditUrl(
-        $docTemplateId,
-        $redirectUrl = null,
-        $hiddenOriginComponents = null,
-        $basicComponentsType = null,
-        $showReplaceFraft = null,
-        $customComponentGroups = null,
-        $customComponents = null,
-        $signerRoles = null
-    )
+        string $docTemplateId,
+        string $redirectUrl = null,
+        bool   $hiddenOriginComponents = null,
+        array  $basicComponentsType = null,
+        bool   $showReplaceFraft = null,
+        array  $customComponentGroups = null,
+        array  $customComponents = null,
+        array  $signerRoles = null
+    ): array
     {
         $data = [];
 
@@ -177,14 +177,14 @@ class TemplateService
      * @throws ESignBaoException
      */
     public function getDocTemplateFillUrl(
-        $docTemplateId,
-        $customBizNum = null,
-        $componentFillingValues = null,
-        $editFillingValue = null,
-        $clientType = null,
-        $notifyUrl = null,
-        $redirectUrl = null
-    )
+        string $docTemplateId,
+        string $customBizNum = null,
+        array  $componentFillingValues = null,
+        bool   $editFillingValue = null,
+        string $clientType = null,
+        string $notifyUrl = null,
+        string $redirectUrl = null
+    ): array
     {
         $data = [
             'docTemplateId' => $docTemplateId,
@@ -226,7 +226,7 @@ class TemplateService
      * @return array 包含模板详情和控件列表
      * @throws ESignBaoException
      */
-    public function getDocTemplateComponents($docTemplateId)
+    public function getDocTemplateComponents(string $docTemplateId): array
     {
         return $this->httpClient->get("/v3/doc-templates/{$docTemplateId}");
     }
@@ -241,7 +241,7 @@ class TemplateService
      * @return array 包含填写状态和内容的结果
      * @throws ESignBaoException
      */
-    public function getFillTaskResult($docTemplateId, $fillTaskId)
+    public function getFillTaskResult(string $docTemplateId, string $fillTaskId): array
     {
         $data = [
             'docTemplateId' => $docTemplateId,

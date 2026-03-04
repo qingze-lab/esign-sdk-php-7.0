@@ -42,7 +42,7 @@ class UploadClient extends AbstractClient
      * @return array 包含状态码和响应体
      * @throws ESignBaoException
      */
-    public function put($url, $body, array $headers)
+    public function put(string $url, $body, array $headers): array
     {
         $operationId = $this->generateOperationId();
 

@@ -39,13 +39,13 @@ class SignFlowService
      * @throws ESignBaoException
      */
     public function createByFile(
-        $docs = null,
-        $attachments = null,
-        $signFlowConfig = null,
-        $signFlowInitiator = null,
-        $signers = null,
-        $copiers = null
-    )
+        array $docs = null,
+        array $attachments = null,
+        array $signFlowConfig = null,
+        array $signFlowInitiator = null,
+        array $signers = null,
+        array $copiers = null
+    ): array
     {
         $data = [];
 
@@ -97,15 +97,15 @@ class SignFlowService
      * @throws ESignBaoException
      */
     public function getSignUrl(
-        $signFlowId,
-        $operator = null,
-        $organization = null,
-        $needLogin = false,
-        $urlType = 2,
-        $clientType = 'ALL',
-        $redirectConfig = null,
-        $appScheme = null
-    )
+        string $signFlowId,
+        array  $operator = null,
+        array  $organization = null,
+        bool   $needLogin = false,
+        int    $urlType = 2,
+        string $clientType = 'ALL',
+        array  $redirectConfig = null,
+        string $appScheme = null
+    ): array
     {
         $data = [
             'needLogin'  => $needLogin,
@@ -142,7 +142,7 @@ class SignFlowService
      * @return array 空对象
      * @throws ESignBaoException
      */
-    public function revoke($signFlowId, $revokeReason = null)
+    public function revoke(string $signFlowId, string $revokeReason = null): array
     {
         $data = [];
 
@@ -162,7 +162,7 @@ class SignFlowService
      * @return array 包含流程状态、文件信息、签署方信息等详情
      * @throws ESignBaoException
      */
-    public function getSignFlowDetail($signFlowId)
+    public function getSignFlowDetail(string $signFlowId): array
     {
         return $this->httpClient->get("/v3/sign-flow/{$signFlowId}/detail");
     }
@@ -181,12 +181,12 @@ class SignFlowService
      * @throws ESignBaoException
      */
     public function getFileDownloadUrl(
-        $signFlowId,
-        $urlAvailableDate = null,
-        $internalUrl = null,
-        $rsaSecret = null,
-        $rsaSecretKey = null
-    )
+        string $signFlowId,
+        int    $urlAvailableDate = null,
+        bool   $internalUrl = null,
+        string $rsaSecret = null,
+        string $rsaSecretKey = null
+    ): array
     {
         $data = [
             'signFlowId' => $signFlowId,
@@ -223,10 +223,10 @@ class SignFlowService
      * @throws ESignBaoException
      */
     public function getPreviewFileDownloadUrl(
-        $signFlowId,
-        $docFileId,
-        $urlAvailableDate = null
-    )
+        string $signFlowId,
+        string $docFileId,
+        int    $urlAvailableDate = null
+    ): array
     {
         $data = [
             'docFileId' => $docFileId,

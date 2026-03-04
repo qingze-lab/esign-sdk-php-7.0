@@ -17,7 +17,7 @@ interface LoggerInterface
      *
      * @return void
      */
-    public function info($message, array $context = []);
+    public function info(string $message, array $context = []);
 
     /**
      * 记录错误级日志。
@@ -27,5 +27,5 @@ interface LoggerInterface
      *
      * @return void
      */
-    public function error($message, array $context = []);
+    public function error(string $message, array $context = []);
 }

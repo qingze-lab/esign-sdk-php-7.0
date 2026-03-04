@@ -37,12 +37,12 @@ class AuthService
      * @throws ESignBaoException
      */
     public function getPersonAuthUrl(
-        array   $psnAuthConfig,
-        array   $authorizeConfig = null,
-        array   $redirectConfig = null,
-        $notifyUrl = null,
-        $clientType = null
-    )
+        array  $psnAuthConfig,
+        array  $authorizeConfig = null,
+        array  $redirectConfig = null,
+        string $notifyUrl = null,
+        string $clientType = null
+    ): array
     {
         $data = ['psnAuthConfig' => $psnAuthConfig];
 
@@ -76,13 +76,13 @@ class AuthService
      * @throws ESignBaoException
      */
     public function getOrganizationAuthUrl(
-        array   $orgAuthConfig,
-        array   $authorizeConfig = null,
-        array   $redirectConfig = null,
-        $notifyUrl = null,
-        $clientType = null,
-        $appScheme = null
-    )
+        array  $orgAuthConfig,
+        array  $authorizeConfig = null,
+        array  $redirectConfig = null,
+        string $notifyUrl = null,
+        string $clientType = null,
+        string $appScheme = null
+    ): array
     {
         $data = ['orgAuthConfig' => $orgAuthConfig];
         if ($authorizeConfig !== null) {
@@ -112,7 +112,7 @@ class AuthService
      * @return array 流程详情
      * @throws ESignBaoException
      */
-    public function getAuthFlowDetail($authFlowId)
+    public function getAuthFlowDetail(string $authFlowId): array
     {
         return $this->httpClient->get('/v3/auth-flow/' . $authFlowId);
     }
@@ -129,11 +129,11 @@ class AuthService
      * @throws ESignBaoException
      */
     public function getPersonIdentityInfo(
-        $psnId = null,
-        $psnAccount = null,
-        $psnIDCardNum = null,
-        $psnIDCardType = 'CRED_PSN_CH_IDCARD'
-    )
+        string $psnId = null,
+        string $psnAccount = null,
+        string $psnIDCardNum = null,
+        string $psnIDCardType = 'CRED_PSN_CH_IDCARD'
+    ): array
     {
         $params = [];
 
@@ -164,9 +164,9 @@ class AuthService
      * @throws ESignBaoException
      */
     public function getOrganizationIdentityInfo(
-        $orgId = null,
-        $orgIDCardNum = null
-    )
+        string $orgId = null,
+        string $orgIDCardNum = null
+    ): array
     {
         $params = [];
 
@@ -182,5 +182,93 @@ class AuthService
         }
 
         return $this->httpClient->get('/v3/organizations/identity-info', $params);
+    }
+
+    /**
+     * 个人核身（刷脸认证）
+     * 接口文档: https://open.esign.cn/doc/opendoc/identity_service/wbsb6y
+     *
+     * @param string $name         姓名
+     * @param string $idNo         证件号
+     * @param string $faceauthMode 刷脸认证方式 (ZHIMACREDIT, TENCENT, ESIGN, WE_CHAT_FACE, PSN_AUDIO_VIDEO_ESIGN)
+     * @param string $callbackUrl  认证完成后重定向地址
+     * @param array  $options      可选参数
+     *                             - certType: 证件类型，默认 INDIVIDUAL_CH_IDCARD
+     *                             - faceInterfaceType: 刷脸对接方式，默认 H5
+     *                             - resultPage: 是否展示结果页，默认 0 (不展示)
+     *                             - contextId: 自定义业务标识
+     *                             - notifyUrl: 异步通知地址
+     *                             - config: 认证配置项 (array)
+     *                             - mobileNo: 手机号
+     *                             - certificationPurpose: 实名用途，默认 INDIVIDUAL
+     *                             - orgName: 企业名称
+     *                             - orgCertNo: 企业证件号
+     * @return array
+     * @throws ESignBaoException
+     */
+    public function individualFaceAuth(string $name, string $idNo, string $faceauthMode, string $callbackUrl, array $options = []): array
+    {
+        $data = [
+            'name'         => $name,
+            'idNo'         => $idNo,
+            'faceauthMode' => $faceauthMode,
+            'callbackUrl'  => $callbackUrl,
+        ];
+
+        // 可选参数映射
+        $optionalFields = [
+            'certType',
+            'faceInterfaceType',
+            'resultPage',
+            'contextId',
+            'notifyUrl',
+            'config',
+            'mobileNo',
+            'certificationPurpose',
+            'orgName',
+            'orgCertNo',
+        ];
+
+        foreach ($optionalFields as $field) {
+            if (isset($options[$field])) {
+                $data[$field] = $options[$field];
+            }
+        }
+
+        return $this->httpClient->post('/v2/identity/auth/api/individual/face', $data);
+    }
+
+    /**
+     * 查询个人刷脸状态
+     * 接口文档: https://open.esign.cn/doc/opendoc/paas_api/za7u0cs4vwt5ilyx
+     *
+     * @param string $flowId 刷脸认证流程ID
+     * @return array
+     * @throws ESignBaoException
+     */
+    public function getPersonFaceAuthStatus(string $flowId): array
+    {
+        return $this->httpClient->get("/v2/identity/auth/pub/individual/{$flowId}/face");
+    }
+
+    /**
+     * 个人运营商3要素信息比对
+     * 接口文档: https://open.esign.cn/doc/opendoc/identity_service/cgs6ee
+     *
+     * @param string $idNo     身份证号（大陆二代身份证）
+     * @param string $name     姓名
+     * @param string $mobileNo 手机号（中国大陆3大运营商）
+     * @return array
+     * @throws ESignBaoException
+     */
+    public function verifyTelecom3Factors(string $idNo, string $name, string $mobileNo): array
+    {
+        $data = [
+            'idNo'     => $idNo,
+            'name'     => $name,
+            'mobileNo' => $mobileNo,
+        ];
+
+        return $this->httpClient->post('/v2/identity/verify/individual/telecom3Factors', $data);
     }
 }

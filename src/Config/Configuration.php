@@ -67,7 +67,7 @@ class Configuration
      * @param string $appSecret  应用密钥
      * @param string $apiBaseUrl 接口地址（默认正式环境）
      */
-    public function __construct($appId, $appSecret, $apiBaseUrl = 'https://openapi.esign.cn')
+    public function __construct(string $appId, string $appSecret, string $apiBaseUrl = 'https://openapi.esign.cn')
     {
         $this->appId      = $appId;
         $this->appSecret  = $appSecret;
@@ -85,7 +85,7 @@ class Configuration
      * @param int $timeout
      * @return $this
      */
-    public function setTimeout($timeout)
+    public function setTimeout(int $timeout): self
     {
         $this->timeout = $timeout;
         return $this;
@@ -96,7 +96,7 @@ class Configuration
      * @param float $connectTimeout
      * @return $this
      */
-    public function setConnectTimeout($connectTimeout)
+    public function setConnectTimeout(float $connectTimeout): self
     {
         $this->connectTimeout = $connectTimeout;
         return $this;
@@ -107,7 +107,7 @@ class Configuration
      * @param int $maxRetries
      * @return $this
      */
-    public function setMaxRetries($maxRetries)
+    public function setMaxRetries(int $maxRetries): self
     {
         $this->maxRetries = $maxRetries;
         return $this;
@@ -118,7 +118,7 @@ class Configuration
      * @param int $retryDelayMs
      * @return $this
      */
-    public function setRetryDelayMs($retryDelayMs)
+    public function setRetryDelayMs(int $retryDelayMs): self
     {
         $this->retryDelayMs = $retryDelayMs;
         return $this;
@@ -129,7 +129,7 @@ class Configuration
      * @param LoggerInterface $logger
      * @return $this
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
         return $this;
@@ -140,7 +140,7 @@ class Configuration
     /**
      * @return string
      */
-    public function getAppId()
+    public function getAppId(): string
     {
         return $this->appId;
     }
@@ -148,7 +148,7 @@ class Configuration
     /**
      * @return string
      */
-    public function getAppSecret()
+    public function getAppSecret(): string
     {
         return $this->appSecret;
     }
@@ -156,7 +156,7 @@ class Configuration
     /**
      * @return string
      */
-    public function getApiBaseUrl()
+    public function getApiBaseUrl(): string
     {
         return $this->apiBaseUrl;
     }
@@ -164,7 +164,7 @@ class Configuration
     /**
      * @return int
      */
-    public function getTimeout()
+    public function getTimeout(): int
     {
         return $this->timeout;
     }
@@ -172,7 +172,7 @@ class Configuration
     /**
      * @return float
      */
-    public function getConnectTimeout()
+    public function getConnectTimeout(): float
     {
         return $this->connectTimeout;
     }
@@ -180,7 +180,7 @@ class Configuration
     /**
      * @return bool
      */
-    public function isSandbox()
+    public function isSandbox(): bool
     {
         return $this->sandbox;
     }
@@ -188,7 +188,7 @@ class Configuration
     /**
      * @return int
      */
-    public function getMaxRetries()
+    public function getMaxRetries(): int
     {
         return $this->maxRetries;
     }
@@ -196,7 +196,7 @@ class Configuration
     /**
      * @return array
      */
-    public function getRetryStatusCodes()
+    public function getRetryStatusCodes(): array
     {
         return $this->retryStatusCodes;
     }
@@ -204,7 +204,7 @@ class Configuration
     /**
      * @return int
      */
-    public function getRetryDelayMs()
+    public function getRetryDelayMs(): int
     {
         return $this->retryDelayMs;
     }
@@ -212,7 +212,7 @@ class Configuration
     /**
      * @return LoggerInterface
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }

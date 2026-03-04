@@ -30,7 +30,7 @@ abstract class AbstractClient
      * @return array
      * @throws ESignBaoException
      */
-    protected function parseResponse(ResponseInterface $response, $operationId)
+    protected function parseResponse(ResponseInterface $response, string $operationId): array
     {
         $statusCode = $response->getStatusCode();
         $body       = $response->getBody()->getContents();
@@ -38,7 +38,7 @@ abstract class AbstractClient
         $this->log('Response', [
             'operation_id' => $operationId,
             'status_code'  => $statusCode,
-            'body'         => $body
+            'body'         => $body,
         ]);
 
         if ($statusCode < 200 || $statusCode >= 300) {
@@ -73,7 +73,7 @@ abstract class AbstractClient
      * @param array $headers
      * @return array
      */
-    protected function sanitizeHeaders(array $headers)
+    protected function sanitizeHeaders(array $headers): array
     {
         $sanitized = $headers;
         if (isset($sanitized['X-Tsign-Open-Ca-Signature'])) {
@@ -86,14 +86,16 @@ abstract class AbstractClient
      * 生成操作ID用于日志关联
      * @return string
      */
-    protected function generateOperationId()
+    protected function generateOperationId(): string
     {
         try {
             if (function_exists('random_bytes')) {
                 return bin2hex(random_bytes(8));
-            } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            }
+            elseif (function_exists('openssl_random_pseudo_bytes')) {
                 return bin2hex(openssl_random_pseudo_bytes(8));
-            } else {
+            }
+            else {
                 return uniqid('', true);
             }
         } catch (Exception $e) {
@@ -106,7 +108,7 @@ abstract class AbstractClient
      * @param string $type
      * @param array  $data
      */
-    protected function log($type, array $data)
+    protected function log(string $type, array $data)
     {
         if ($this->config->getLogger() !== null) {
             switch ($type) {

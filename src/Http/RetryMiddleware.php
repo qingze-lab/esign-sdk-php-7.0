@@ -38,9 +38,9 @@ class RetryMiddleware
      * @param int   $retryDelay       重试延迟（毫秒）
      */
     public function __construct(
-        $maxRetries = 3,
+        int   $maxRetries = 3,
         array $retryStatusCodes = [408, 429, 500, 502, 503, 504],
-        $retryDelay = 200
+        int   $retryDelay = 200
     )
     {
         $this->maxRetries       = $maxRetries;
@@ -53,7 +53,7 @@ class RetryMiddleware
      * @param callable $handler
      * @return callable
      */
-    public function __invoke(callable $handler)
+    public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request, array $options) use ($handler) {
             $retries = 0;
@@ -91,7 +91,7 @@ class RetryMiddleware
      * @param int               $retries
      * @return bool
      */
-    private function shouldRetry(ResponseInterface $response, $retries)
+    private function shouldRetry(ResponseInterface $response, int $retries): bool
     {
         if ($retries >= $this->maxRetries) {
             return false;
@@ -106,7 +106,7 @@ class RetryMiddleware
      * @param int $retries
      * @return bool
      */
-    private function shouldRetryException($reason, $retries)
+    private function shouldRetryException($reason, int $retries): bool
     {
         if ($retries >= $this->maxRetries) {
             return false;
@@ -121,7 +121,7 @@ class RetryMiddleware
      * 延迟执行（指数退避）
      * @param int $retries
      */
-    private function delay($retries)
+    private function delay(int $retries)
     {
         $delay = $this->retryDelay * (pow(2, $retries - 1));
         usleep($delay * 1000); // 转换为微秒

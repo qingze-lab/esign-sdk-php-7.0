@@ -17,7 +17,7 @@ final class NullLogger implements LoggerInterface
      *
      * @return void
      */
-    public function info($message, array $context = [])
+    public function info(string $message, array $context = [])
     {
         // Do nothing.
     }
@@ -30,7 +30,7 @@ final class NullLogger implements LoggerInterface
      *
      * @return void
      */
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = [])
     {
         // Do nothing.
     }

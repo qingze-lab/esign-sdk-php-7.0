@@ -32,7 +32,7 @@ final class LaravelLogger implements LoggerInterface
      *
      * @return void
      */
-    public function info($message, array $context = [])
+    public function info(string $message, array $context = [])
     {
         if (method_exists($this->logger, 'info')) {
             $this->logger->info($message, $context);
@@ -47,7 +47,7 @@ final class LaravelLogger implements LoggerInterface
      *
      * @return void
      */
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = [])
     {
         if (method_exists($this->logger, 'error')) {
             $this->logger->error($message, $context);

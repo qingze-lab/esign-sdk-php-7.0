@@ -14,7 +14,7 @@ class SignatureUtil
      * @param string $content 请求体内容
      * @return string Base64编码的MD5值
      */
-    public static function generateContentMD5($content)
+    public static function generateContentMD5(string $content): string
     {
         if (empty($content)) {
             return '';
@@ -29,7 +29,7 @@ class SignatureUtil
      * @param string $filePath 文件路径
      * @return string Base64编码的MD5值
      */
-    public static function generateFileMD5($filePath)
+    public static function generateFileMD5(string $filePath): string
     {
         if (!file_exists($filePath)) {
             return '';
@@ -53,15 +53,15 @@ class SignatureUtil
      * @return string 签名字符串
      */
     public static function generateSignature(
-        $appSecret,
-        $method,
-        $accept,
-        $contentMD5,
-        $contentType,
-        $date,
-        $headers,
-        $url
-    )
+        string $appSecret,
+        string $method,
+        string $accept,
+        string $contentMD5,
+        string $contentType,
+        string $date,
+        string $headers,
+        string $url
+    ): string
     {
         // 构建待签名字符串
         // 格式：HTTP方法 + "\n" + Accept + "\n" + Content-MD5 + "\n" + Content-Type + "\n" + Date + "\n" + Headers + URL
@@ -90,7 +90,7 @@ class SignatureUtil
      * @param int|null $timestamp 时间戳，默认为当前时间
      * @return string GMT格式时间
      */
-    public static function generateGMTDate($timestamp = null)
+    public static function generateGMTDate(int $timestamp = null): string
     {
         if ($timestamp === null) {
             $timestamp = time();
@@ -105,7 +105,7 @@ class SignatureUtil
      * @param array $headers 自定义头部数组
      * @return string 格式化后的头部字符串
      */
-    public static function formatCustomHeaders(array $headers)
+    public static function formatCustomHeaders(array $headers): string
     {
         if (empty($headers)) {
             return '';
@@ -143,7 +143,7 @@ class SignatureUtil
      * @param string $url 完整URL或路径
      * @return string
      */
-    public static function buildPathAndParameters($url)
+    public static function buildPathAndParameters(string $url): string
     {
         $parsedUrl = parse_url($url);
         $path      = isset($parsedUrl['path']) ? $parsedUrl['path'] : '/';

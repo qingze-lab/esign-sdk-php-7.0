@@ -48,15 +48,15 @@ class FileService
      * @throws ESignBaoException
      */
     public function getFileUploadUrl(
-        $contentMd5,
-        $contentType,
-        $fileName,
-        $fileSize,
-        $convertToPDF = false,
-        $convertToHTML = false,
-        $convertToOFD = false,
-        $dedicatedCloudId = null
-    )
+        string $contentMd5,
+        string $contentType,
+        string $fileName,
+        int    $fileSize,
+        bool   $convertToPDF = false,
+        bool   $convertToHTML = false,
+        bool   $convertToOFD = false,
+        string $dedicatedCloudId = null
+    ): array
     {
         $data = [
             'contentMd5'    => $contentMd5,
@@ -87,7 +87,7 @@ class FileService
      * @return array 上传结果
      * @throws ESignBaoException
      */
-    public function uploadFileStream($fileUploadUrl, $filePath, $contentType = 'application/pdf', $contentMd5 = null)
+    public function uploadFileStream(string $fileUploadUrl, string $filePath, string $contentType = 'application/pdf', string $contentMd5 = null): array
     {
         if (!file_exists($filePath) || !is_readable($filePath)) {
             throw new ESignBaoException("文件不存在或不可读: {$filePath}", 0);
@@ -129,7 +129,7 @@ class FileService
      *                       4-文件等待转pdf；5-文件已转换pdf；6-加水印中；7-加水印完毕；8-文件转换失败；
      * @throws ESignBaoException
      */
-    public function getFileStatus($fileId)
+    public function getFileStatus(string $fileId): array
     {
         return $this->httpClient->get("/v3/files/{$fileId}");
     }

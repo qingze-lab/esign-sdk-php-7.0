@@ -68,7 +68,7 @@ class Client
      *
      * @return AuthService
      */
-    public function auth()
+    public function auth(): AuthService
     {
         if ($this->authService === null) {
             $this->authService = new AuthService($this->httpClient);
@@ -81,7 +81,7 @@ class Client
      *
      * @return SignFlowService
      */
-    public function signFlow()
+    public function signFlow(): SignFlowService
     {
         if ($this->signFlowService === null) {
             $this->signFlowService = new SignFlowService($this->httpClient);
@@ -94,7 +94,7 @@ class Client
      *
      * @return FileService
      */
-    public function file()
+    public function file(): FileService
     {
         if ($this->fileService === null) {
             $this->fileService = new FileService($this->httpClient);
@@ -107,7 +107,7 @@ class Client
      *
      * @return TemplateService
      */
-    public function template()
+    public function template(): TemplateService
     {
         if ($this->templateService === null) {
             $this->templateService = new TemplateService($this->httpClient);
@@ -120,7 +120,7 @@ class Client
      *
      * @return Configuration
      */
-    public function getConfig()
+    public function getConfig(): Configuration
     {
         return $this->config;
     }
@@ -130,7 +130,7 @@ class Client
      *
      * @return HttpClient
      */
-    public function getHttpClient()
+    public function getHttpClient(): HttpClient
     {
         return $this->httpClient;
     }
