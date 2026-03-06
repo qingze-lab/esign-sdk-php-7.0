@@ -2,6 +2,7 @@
 
 namespace QingzeLab\ESignBao\Services;
 
+use QingzeLab\ESignBao\Constants\AuthConstants;
 use QingzeLab\ESignBao\Exceptions\ESignBaoException;
 use QingzeLab\ESignBao\Http\HttpClient;
 
@@ -119,12 +120,18 @@ class AuthService
 
     /**
      * 查询个人认证信息
-     * 接口文档: https://open.esign.cn/doc/opendoc/auth3/rx8igf
+     * 接口文档: https://open.esign.cn/doc/opendoc/auth3/vssvtu
      *
      * @param string|null $psnId         个人账号ID
      * @param string|null $psnAccount    个人账号标识（手机号或邮箱）
      * @param string|null $psnIDCardNum  个人证件号
-     * @param string|null $psnIDCardType 证件类型，默认CRED_PSN_CH_IDCARD
+     * @param string|null $psnIDCardType 证件类型，默认 AuthConstants::CRED_PSN_CH_IDCARD
+     *                                   可选值:
+     *                                   - AuthConstants::CRED_PSN_CH_IDCARD (中国大陆居民身份证)
+     *                                   - AuthConstants::CRED_PSN_CH_HONGKONG (香港来往大陆通行证)
+     *                                   - AuthConstants::CRED_PSN_CH_MACAO (澳门来往大陆通行证)
+     *                                   - AuthConstants::CRED_PSN_CH_TWCARD (台湾来往大陆通行证)
+     *                                   - AuthConstants::CRED_PSN_PASSPORT (护照)
      * @return array 认证信息
      * @throws ESignBaoException
      */
@@ -132,9 +139,13 @@ class AuthService
         string $psnId = null,
         string $psnAccount = null,
         string $psnIDCardNum = null,
-        string $psnIDCardType = 'CRED_PSN_CH_IDCARD'
+        string $psnIDCardType = null
     ): array
     {
+        if ($psnIDCardType === null) {
+            $psnIDCardType = AuthConstants::CRED_PSN_CH_IDCARD;
+        }
+
         $params = [];
 
         if ($psnId !== null) {

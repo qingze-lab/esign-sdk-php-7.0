@@ -20,4 +20,11 @@ class AuthConstants
     public const CERT_TYPE_INDIVIDUAL_CH_HONGKONG_MACAO            = 'INDIVIDUAL_CH_HONGKONG_MACAO';          // 港澳来往大陆通行证
     public const CERT_TYPE_INDIVIDUAL_CH_RESIDENCE_PERMIT_HK_MO_TW = 'INDIVIDUAL_CH_RESIDENCE_PERMIT_HK_MO_TW'; // 港澳台居民居住证
     public const CERT_TYPE_INDIVIDUAL_CH_GREEN_CARD                = 'INDIVIDUAL_CH_GREEN_CARD';              // 外国人永久居留身份证
+
+    // 个人账号证件类型 (用于查询个人认证信息等接口)
+    public const CRED_PSN_CH_IDCARD   = 'CRED_PSN_CH_IDCARD';   // 中国大陆居民身份证
+    public const CRED_PSN_CH_HONGKONG = 'CRED_PSN_CH_HONGKONG'; // 香港来往大陆通行证
+    public const CRED_PSN_CH_MACAO    = 'CRED_PSN_CH_MACAO';    // 澳门来往大陆通行证
+    public const CRED_PSN_CH_TWCARD   = 'CRED_PSN_CH_TWCARD';   // 台湾来往大陆通行证
+    public const CRED_PSN_PASSPORT    = 'CRED_PSN_PASSPORT';    // 护照
 }

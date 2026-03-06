@@ -133,4 +133,30 @@ class FileService
     {
         return $this->httpClient->get("/v3/files/{$fileId}");
     }
+
+    /**
+     * 填写模板生成文件
+     * 接口文档: https://open.esign.cn/doc/opendoc/pdf-sign3/mv8a3i
+     *
+     * @param string    $docTemplateId 待填充的模板ID
+     * @param string    $fileName      填充后生成的文件名称
+     * @param array     $components    控件列表
+     * @param bool|null $requiredCheck 是否校验PDF模板中必填控件，默认：false
+     * @return array 包含fileId和fileDownloadUrl
+     * @throws ESignBaoException
+     */
+    public function createByDocTemplate(string $docTemplateId, string $fileName, array $components, bool $requiredCheck = null): array
+    {
+        $data = [
+            'docTemplateId' => $docTemplateId,
+            'fileName'      => $fileName,
+            'components'    => $components,
+        ];
+
+        if ($requiredCheck !== null) {
+            $data['requiredCheck'] = $requiredCheck;
+        }
+
+        return $this->httpClient->post('/v3/files/create-by-doc-template', $data);
+    }
 }
