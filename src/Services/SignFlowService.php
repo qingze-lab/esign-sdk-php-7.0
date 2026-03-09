@@ -238,4 +238,30 @@ class SignFlowService
 
         return $this->httpClient->get("/v3/sign-flow/{$signFlowId}/preview-file-download-url", $data);
     }
+
+    /**
+     * 催签流程中签署人
+     * 接口文档: https://open.esign.cn/doc/opendoc/pdf-sign3/yws940
+     * 接口路径: POST /v3/sign-flow/{signFlowId}/urge
+     *
+     * @param string      $signFlowId    签署流程ID
+     * @param string|null $noticeTypes   通知方式（1-短信，2-邮件），多种方式用逗号分隔
+     * @param array|null  $urgedOperator 指定被催签人信息（psnAccount/psnId），为空则催签当前轮到但未签署的所有人
+     * @return array 空对象
+     * @throws ESignBaoException
+     */
+    public function urge(string $signFlowId, string $noticeTypes = null, array $urgedOperator = null): array
+    {
+        $data = [];
+
+        if ($noticeTypes !== null) {
+            $data['noticeTypes'] = $noticeTypes;
+        }
+
+        if ($urgedOperator !== null) {
+            $data['urgedOperator'] = $urgedOperator;
+        }
+
+        return $this->httpClient->post("/v3/sign-flow/{$signFlowId}/urge", $data);
+    }
 }
