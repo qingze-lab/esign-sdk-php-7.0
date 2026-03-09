@@ -4,6 +4,7 @@ namespace QingzeLab\ESignBao;
 
 use QingzeLab\ESignBao\Config\Configuration;
 use QingzeLab\ESignBao\Http\HttpClient;
+use QingzeLab\ESignBao\Services\AccountService;
 use QingzeLab\ESignBao\Services\AuthService;
 use QingzeLab\ESignBao\Services\FileService;
 use QingzeLab\ESignBao\Services\SignFlowService;
@@ -36,6 +37,11 @@ class Client
      * @var AuthService|null
      */
     private $authService = null;
+
+    /**
+     * @var AccountService|null
+     */
+    private $accountService = null;
 
     /**
      * @var SignFlowService|null
@@ -74,6 +80,19 @@ class Client
             $this->authService = new AuthService($this->httpClient);
         }
         return $this->authService;
+    }
+
+    /**
+     * 获取账号服务
+     *
+     * @return AccountService
+     */
+    public function account(): AccountService
+    {
+        if ($this->accountService === null) {
+            $this->accountService = new AccountService($this->httpClient);
+        }
+        return $this->accountService;
     }
 
     /**
