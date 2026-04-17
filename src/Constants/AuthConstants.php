@@ -7,6 +7,16 @@ namespace QingzeLab\ESignBao\Constants;
  */
 class AuthConstants
 {
+    // 个人核身认证方式
+    public const INDIV_AUTH_TYPE_PSN_BANK4_AUTHCODE     = 'PSN_BANK4_AUTHCODE';     // 银行卡四要素认证
+    public const INDIV_AUTH_TYPE_PSN_TELECOM_AUTHCODE   = 'PSN_TELECOM_AUTHCODE';   // 运营商三要素认证
+    public const INDIV_AUTH_TYPE_PSN_FACEAUTH_BYURL     = 'PSN_FACEAUTH_BYURL';     // 刷脸认证
+    public const INDIV_AUTH_TYPE_PSN_AUDIO_VIDEO_ESIGN  = 'PSN_AUDIO_VIDEO_ESIGN';  // 智能视频认证
+
+    // 个人核身来源
+    public const INDIV_AUTH_ORIGIN_BROWSER = 'BROWSER'; // 浏览器
+    public const INDIV_AUTH_ORIGIN_APP     = 'APP';     // 移动端 APP
+
     // 刷脸认证方式
     public const FACE_AUTH_MODE_ZHIMACREDIT           = 'ZHIMACREDIT';           // 支付宝刷脸
     public const FACE_AUTH_MODE_TENCENT               = 'TENCENT';               // 腾讯云刷脸

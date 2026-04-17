@@ -196,6 +196,60 @@ class AuthService
     }
 
     /**
+     * 获取个人核身认证地址
+     * 接口文档: https://open.esign.cn/doc/opendoc/identity_service/sg2nty
+     *
+     * @param array $options 接口请求参数
+     *                       - authType: 默认认证方式，可使用 AuthConstants::INDIV_AUTH_TYPE_* 常量
+     *                       - availableAuthTypes: 页面展示的认证方式列表
+     *                       - authAdvancedEnabled: 开启详情版能力的认证方式列表
+     *                       - receiveUrlMobileNo: 接收认证链接短信的手机号
+     *                       - indivInfo: 个人基本信息，如 name、certNo、certType、mobileNo、bankCardNo
+     *                       - configParams: 认证配置项，如 indivUneditableInfo、redirectUrl、showResultPage 等
+     *                       - audioVideoTemplateId: 智能视频认证模板 ID
+     *                       - audioVideoActiveField: 智能视频认证动态朗读字段
+     *                       - contextInfo: 业务上下文，如 contextId、notifyUrl、origin 等
+     *                       - certificationPurpose: 认证用途
+     * @return array
+     * @throws ESignBaoException
+     */
+    public function getIndividualIdentityAuthUrl(array $options = []): array
+    {
+        $data = [];
+
+        $fields = [
+            'authType',
+            'availableAuthTypes',
+            'authAdvancedEnabled',
+            'receiveUrlMobileNo',
+            'indivInfo',
+            'configParams',
+            'audioVideoTemplateId',
+            'audioVideoActiveField',
+            'contextInfo',
+            'certificationPurpose',
+            'orgName',
+            'orgCertNo',
+        ];
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $options)) {
+                $data[$field] = $options[$field];
+            }
+        }
+
+        if (
+            isset($data['contextInfo']['origin']) &&
+            $data['contextInfo']['origin'] === AuthConstants::INDIV_AUTH_ORIGIN_APP &&
+            empty($data['configParams']['redirectUrl'])
+        ) {
+            throw new ESignBaoException('当 origin 为 APP 时，configParams.redirectUrl 为必填参数');
+        }
+
+        return $this->httpClient->post('/v2/identity/auth/web/indivAuthUrl', $data);
+    }
+
+    /**
      * 个人核身（刷脸认证）
      * 接口文档: https://open.esign.cn/doc/opendoc/identity_service/wbsb6y
      *
