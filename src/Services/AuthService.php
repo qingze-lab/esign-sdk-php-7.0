@@ -210,10 +210,11 @@ class AuthService
      *                       - audioVideoActiveField: 智能视频认证动态朗读字段
      *                       - contextInfo: 业务上下文，如 contextId、notifyUrl、origin 等
      *                       - certificationPurpose: 认证用途
+     * @param array $headers
      * @return array
      * @throws ESignBaoException
      */
-    public function getIndividualIdentityAuthUrl(array $options = []): array
+    public function getIndividualIdentityAuthUrl(array $options = [], array $headers = []): array
     {
         $data = [];
 
@@ -246,7 +247,7 @@ class AuthService
             throw new ESignBaoException('当 origin 为 APP 时，configParams.redirectUrl 为必填参数');
         }
 
-        return $this->httpClient->post('/v2/identity/auth/web/indivAuthUrl', $data);
+        return $this->httpClient->post('/v2/identity/auth/web/indivAuthUrl', $data, $headers);
     }
 
     /**

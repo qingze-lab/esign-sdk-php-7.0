@@ -218,9 +218,7 @@ class HttpClient extends AbstractClient
         }
 
         foreach ($customHeaders as $key => $value) {
-            if (strpos(strtolower($key), 'x-tsign-open-') === 0) {
-                $headers[$key] = $value;
-            }
+            $headers[$key] = $value;
         }
 
         return $headers;
